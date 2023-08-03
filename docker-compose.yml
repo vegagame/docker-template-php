@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+    balancer:
+        image: traefik
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+            - ./traefik/config.yml:/etc/traefik/config.yml:ro
+            - ./certs:/etc/certs:ro
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.traefik=true"
+        networks:
+            - ${network}
+    db:
+        image: mysql:5.7
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 12345678
+            MYSQL_DATABASE: ${network}
+        ports:
+            - 3306
+        restart: always
+        networks:
+            - ${network}
+    memcached:
+        image: memcached
+        ports:
+            - 11211
+        networks:
+            - ${network}
+    php:
+        build:
+            context: .
+            dockerfile: php/Dockerfile
+        volumes:
+            - ./app:/var/www/
+            - ./php/symfony.ini:/usr/local/etc/php/conf.d/symfony.ini
+            - $HOME/.aws:/root/.aws
+        environment:
+            COMPOSER_AUTH: '{"github-oauth": {"github.com": "${GITHUB_TOKEN}"}}'
+            DATABASE_HOST_CM: db
+            MEMECACHE_HOST_1: memcached
+            MEMECACHE_HOST_2: memcached
+            MEMECACHE_HOST_3: memcached
+        restart: always
+        networks:
+            - ${network}
+    nginx:
+        image: nginx
+        volumes:
+            - ./app:/var/www/
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/conf.d/upstream.conf:/etc/nginx/conf.d/upstream.conf
+        restart: always
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.mobile.rule=Host(`${host}.localhost`)
+            - traefik.http.routers.mobile.tls=true
+        networks:
+            - ${network}
+
+volumes:
+    db:
+
+networks:
+    ${network}:
+        external: true
