@@ -44,10 +44,8 @@ services:
             - $HOME/.aws:/root/.aws
         environment:
             COMPOSER_AUTH: '{"github-oauth": {"github.com": "${GITHUB_TOKEN}"}}'
-            DATABASE_HOST_CM: db
-            MEMECACHE_HOST_1: memcached
-            MEMECACHE_HOST_2: memcached
-            MEMECACHE_HOST_3: memcached
+            DATABASE_HOST: db
+            MEMECACHE_HOST: memcached
         restart: always
         networks:
             - ${network}

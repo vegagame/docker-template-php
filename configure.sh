@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Enter host (eg: domain.localhost)"
+echo "Enter host (eg: my-domain)"
 # shellcheck disable=SC2162
 read host
 
@@ -25,12 +25,12 @@ replaceInFiles "./docker-compose.yml"
 
 
 mkdir certs && cd certs && mkcert -install local-cert && cd ..
-mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "$network" "*.$network"
+mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "$host.localhost" "*.$host.localhost"
 
 docker network create "$network"
 
 echo "App available in: https://$host.localhost/";
 echo "The application will be available in dir: app";
 echo "Start environment with docker-compose  up -d";
-echo "God work 😀";
+echo "Good work 😀";
 

@@ -34,7 +34,7 @@ docker-compose  down
 
 ### To exec command:
 ```
-docker exec -w /var/www cm-docker_php_1 php bin/console 
+docker exec -w /var/www test-docker_php_1 php bin/console 
 ```
 
 ### Navigtion

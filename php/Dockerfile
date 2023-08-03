@@ -11,7 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -q && \
       python3-pip \
       unzip
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     npm i -g yarn
 
@@ -66,4 +66,4 @@ RUN cd /opt \
   # Remove installer files.
   && rm /opt/composer-setup.php /opt/composer-setup.sha384sum
 
-WORKDIR /var/www/html/
+WORKDIR /var/www/
