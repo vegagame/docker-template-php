@@ -29,7 +29,12 @@ docker-compose  up -d
 
 ### To stop the environment:
 ```
-docker-compose  down
+docker-compose down
+```
+
+### Force rebuild container:
+```
+docker-compose up -d --no-deps --build
 ```
 
 ### To exec command:
