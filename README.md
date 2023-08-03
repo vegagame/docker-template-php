@@ -8,6 +8,9 @@ If not install it and configure: https://docs.aws.amazon.com/cli/latest/userguid
 -  **mkcert** (https://github.com/FiloSottile/mkcert) e **docker/docker-compose**.
 
 ## Configuration
+
+Make sure `configure.sh` is executable with `chmod u+x configure.sh`
+
 Exec command `bash configure.sh` and insert:
 
 - Local site host eg: `domain.localhost`

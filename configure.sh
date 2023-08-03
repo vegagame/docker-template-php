@@ -29,7 +29,7 @@ mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "$network" 
 
 docker network create "$network"
 
-echo "App available in: $host";
+echo "App available in: https://$host.localhost/";
 echo "The application will be available in dir: app";
 echo "Start environment with docker-compose  up -d";
 echo "God work 😀";
